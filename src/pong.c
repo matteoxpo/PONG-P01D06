@@ -25,8 +25,8 @@ void game_pong(){
     
     int BallXC = W/2;
     int BallYC = H/2;
-    //int BallXS = 1;
-    //int BallYS = 1;
+    int BallXS = 1;
+    int BallYS = 1;
 
     int lPadXC = 2;
     int lPadYC = H/2; 
@@ -38,7 +38,6 @@ void game_pong(){
     getchar();
     do {
         fpurge(stdin);
-        
         printf("Left Score:%d", lScore);
         for (int i = 0; i < 29; i++) {
             printf(" ");
@@ -66,7 +65,7 @@ void game_pong(){
                     printf("|");
                     continue;
                 }
-                if (x == BallXC && y == BallYC) { // мяч
+                if (x == BallXC && y == BallYC && BallXC != 0 && BallXC != W + 1) { // мяч
                     printf("*");
                     continue;
                 }
@@ -80,12 +79,32 @@ void game_pong(){
             }
             printf("\n");
         }
+
+
+        if (BallYC + BallYS == 0 || BallYC + BallYS == H + 1)
+            BallYS*=-1;
+        
+
+        if (BallXC == 0) {
+            rScore++;
+            BallXC = W/2;
+            BallYC = H/2;
+        }
+        if (BallYC == W + 1) {
+            lScore++;
+            BallXC = W/2;
+            BallYC = H/2;
+        }
+
         if (lScore == 21 || rScore == 21)
             break;
         
+        BallXC+=BallXS;
+        BallYC+=BallYS;
+
         scanf("%c",&input);
-        //printf("\n!%c!\n", input);
-        //if (input == 'w' || input == 'W')
+        
+
         switch(input){
             case 'a':
                 if(lPadYC - 2 != 0) 
@@ -123,8 +142,9 @@ void game_pong(){
                 break;
             
         }
-        printf("%c", input);
 
+        
+        
 
 
     } while(input != 'e');
