@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 #define W 80
 #define H 25
@@ -86,13 +87,17 @@ void game_pong(){
         if (BallXC + BallXS == 0) {
             rScore++;
             BallXC = W/2;
-            BallYC = H/2;
+            BallYC = H/4 + 2 * rScore % (H*3/4);
+            BallXS = 1;
+            BallYS = (int)pow(-1,rScore);
             continue;
         }
         if (BallXC + BallXS == W + 1) {
             lScore++;
-            BallXC = W/2;
-            BallYC = H/2;
+            BallXC = W/2 + 1;
+            BallYC = H/2 + 2 * lScore % (H*3/4);
+            BallXS = 1;
+            BallYS = (int)pow(-1,lScore);
             continue;
         }
 
@@ -101,19 +106,43 @@ void game_pong(){
 
         if ((BallXC + BallXS == lPadXC) || (BallXC + BallXS == rPadXC)) {
             if (BallXC + BallXS == lPadXC) {
-                if (BallYC == lPadYC || BallYC == lPadYC - 1 || BallYC == lPadYC + 1) {
+                if (BallYC == lPadYC) {
                     BallXS *= -1;
                     BallYS *= -1;
+                    if (BallYS / 2 == 1){
+                        BallYS /= 2;
+                    }
+                }
+                if (BallYC == lPadYC - 1 || BallYC == lPadYC + 1){
+                    BallXS *= -1;
+                    BallYS *= -1;
+                    if (BallYS / 2 != 1){
+                        BallYS *= 2;
+                    }
                 }
             } 
-
             if (BallXC + BallXS == rPadXC) {
-                if (BallYC == rPadYC || BallYC == rPadYC - 1 || BallYC == rPadYC + 1) {
+                if (BallYC == rPadYC ) {
                     BallXS *= -1;
                     BallYS *= -1;
+                    if (BallYS / 2 == 1) {
+                        BallYS /= 2;
+                    }
                 }
+                if (BallYC == rPadYC - 1 || BallYC == rPadYC + 1) {
+                    BallXS *= -1;
+                    BallYS *= -1;
+                    if (BallYS / 2 != 1) {
+                        BallYS *= 2;
+                    }
+                }
+                
             } 
         } else {
+            if (BallYC + BallYS < 0 || BallYC + BallYS > H + 1) {
+                BallYS /= -2;
+                
+            }
             if (BallYC + BallYS == 0 || BallYC + BallYS == H + 1) {
                 BallYS *= -1;
             }
