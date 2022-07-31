@@ -25,7 +25,7 @@ void game_pong(){
     
     int BallXC = W/2;
     int BallYC = H/2;
-    int BallXS = 1;
+    int BallXS = -1;
     int BallYS = 1;
 
     int lPadXC = 2;
@@ -34,7 +34,8 @@ void game_pong(){
     int rPadXC  = W-1;
     int rPadYC  = H/2;
 
-    printf("\nTO PLAY GAME:\npush A K - to up left/right paddle\npush Z M - to down left/right paddle\n");
+    int flag = 1;
+    printf("\nTO PLAY GAME:\npush A K - to up left/right paddle\npush Z M - to down left/right paddle\nAny symbol to start:");
     getchar();
     do {
         fpurge(stdin);
@@ -44,42 +45,43 @@ void game_pong(){
         }
         printf("Right Score:%d\n", rScore);
 
-        for (int y = 0; y < H + 2; y++) { // i - строки
-            
-            for (int x = 0; x < W + 2; x++) { // j - столбцы
+        if (flag){
+            for (int y = 0; y < H + 2; y++) { // i - строки
                 
-                if (y == 0  || y == H + 1) { // СЛУЧАЙ НИЖНЕЙ И ВЕРХНЕЙ ГРАНИЦЫ ПОЛЯ
-                    printf("#");             // выводим на всю строку #
-                    continue;
-                }
-                
-                if (x == 0 || x == W + 1){ // крайние границы
-                    printf("#");
-                    continue;
-                }
-                if (lPadXC == x && (lPadYC == y || lPadYC + 1 == y || lPadYC - 1 == y)){ // вывод левой ракетки
-                    printf("|");
-                    continue;
-                }
-                if (rPadXC == x && (rPadYC == y || rPadYC + 1 == y || rPadYC - 1 == y)) { // вывод правой ракетки
-                    printf("|");
-                    continue;
-                }
-                if (x == BallXC && y == BallYC && BallXC != 0 && BallXC != W + 1) { // мяч
-                    printf("*");
-                    continue;
-                }
-                
-                if (x == W/2 + 1 || x == W/2){ // сетека посередине
-                    printf("|");
-                    continue;
-                }
-                printf(" ");
+                for (int x = 0; x < W + 2; x++) { // j - столбцы
+                    
+                    if (y == 0  || y == H + 1) { // СЛУЧАЙ НИЖНЕЙ И ВЕРХНЕЙ ГРАНИЦЫ ПОЛЯ
+                        printf("#");             // выводим на всю строку #
+                        continue;
+                    }
+                    
+                    if (x == 0 || x == W + 1){ // крайние границы
+                        printf("#");
+                        continue;
+                    }
+                    if (lPadXC == x && (lPadYC == y || lPadYC + 1 == y || lPadYC - 1 == y)){ // вывод левой ракетки
+                        printf("|");
+                        continue;
+                    }
+                    if (rPadXC == x && (rPadYC == y || rPadYC + 1 == y || rPadYC - 1 == y)) { // вывод правой ракетки
+                        printf("|");
+                        continue;
+                    }
+                    if (x == BallXC && y == BallYC && BallXC != 0 && BallXC != W + 1) { // мяч
+                        printf("*");
+                        continue;
+                    }
+                    
+                    if (x == W/2 + 1 || x == W/2){ // сетека посередине
+                        printf("|");
+                        continue;
+                    }
+                    printf(" ");
 
+                }
+                printf("\n");
             }
-            printf("\n");
         }
-
 
         if (BallYC + BallYS == 0 || BallYC + BallYS == H + 1)
             BallYS*=-1;
@@ -90,7 +92,7 @@ void game_pong(){
             BallXC = W/2;
             BallYC = H/2;
         }
-        if (BallYC == W + 1) {
+        if (BallXC == W + 1) {
             lScore++;
             BallXC = W/2;
             BallYC = H/2;
@@ -102,51 +104,70 @@ void game_pong(){
         BallXC+=BallXS;
         BallYC+=BallYS;
 
-        scanf("%c",&input);
-        
+        if (BallXC == lPadXC && (BallYC == lPadYC || BallYC == lPadYC +1 || BallYC == lPadYC - 1)){
+            BallYS*=-1;
+            BallXS*=-1;
+        }
 
+        if (BallXC == rPadXC && (BallYC == rPadYC || BallYC == rPadYC + 1 || BallYC == rPadYC - 1)){
+            BallYS*=-1;
+            BallXS*=-1;
+            printf("CHANGED!");
+        }
+
+        //scanf("%c",&input);
+        input = getchar();
         switch(input){
             case 'a':
                 if(lPadYC - 2 != 0) 
-                    lPadYC--;
+                    lPadYC--;    
+                flag = 1;
                 break;
             case 'A':
                 if(lPadYC - 2 != 0) 
                     lPadYC--;
+                flag = 1;
                 break;
             case 'z':
                 if (lPadYC + 2 != 26)
                     lPadYC++;
+                flag = 1;
                 break;
             case 'Z':
                 if (lPadYC + 2 != 26)
                     lPadYC++;
+                flag = 1;
                 break;
             case 'k':
                 if(rPadYC - 2 != 0) 
                     rPadYC--;
+                flag = 1;
                 break;
             case 'K':
                 if(rPadYC - 2 != 0) 
                     rPadYC--;
+                flag = 1;
                 break;
             case 'm':
                 if (rPadYC + 2 != 26)
                     rPadYC++;
+                flag = 1;
                 break;
             case 'M':
                 if (rPadYC + 2 != 26)
                     rPadYC++;
+                flag = 1;
                 break;
             case ' ':
+                flag = 1;
                 break;
-            
-        }
-
-        
-        
-
-
+            case '\n':
+                flag = 1;
+                break;
+            default:
+                flag = 0;
+                break;
+            }
     } while(input != 'e');
     
 }
