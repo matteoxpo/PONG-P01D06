@@ -9,7 +9,7 @@ void game_pong();
 int main() { game_pong(); }
 
 void game_pong() {
-  printf("Hello! This is PONG!\n We think that you know rules.");
+  printf("Hello! This is PONG!\nWe think that you know rules.");
   printf(
       "Before we start let's decide who will start?(in which direction will "
       "the ball fly?)");
@@ -20,7 +20,7 @@ void game_pong() {
   int BallXC = W / 2;
   int BallYC = H / 2 + 3;
   int BallXS = -1;
-  int BallYS = 1;
+  int BallYS = 0;
 
   int lPadXC = 2;
   int lPadYC = H / 2;
@@ -34,6 +34,7 @@ void game_pong() {
   // getchar();
   do {
     fpurge(stdout);
+    printf("\33[0d\33[2J");
     printf("Left Score:%d", lScore);
     for (int i = 0; i < 29; i++) {
       printf(" ");
@@ -138,8 +139,7 @@ void game_pong() {
       }
     }
 
-    // printf("\n    BallXS:%d, BallYS:%d, BallXC:%d, BallYC:%d \n", BallXS,
-    // BallYS, BallXC, BallYC);
+    printf("\n    BallXS:%d, BallYS:%d, BallXC:%d, BallYC:%d \n", BallXS,BallYS, BallXC, BallYC);
 
     BallXC += BallXS;
     BallYC += BallYS;
