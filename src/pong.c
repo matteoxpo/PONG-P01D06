@@ -15,11 +15,12 @@ void game_menu() {
   printf("-------------------------------------------");
   printf("\n|                 PONG GAME               |");
   printf("\n-------------------------------------------");
-  char command = ' ';
+  char command = 0;
   while ( command != 'e' ) {
     printf("\nGame menu:\n1 - rules\n2 - play\ne - exit");
     printf("\nEnter command:");
-    if (scanf("%c", &command)) {
+    command = 0;
+    if (scanf("%c", &command) == 1) {
       switch (command) {
         case '1':
           printf(
@@ -37,11 +38,15 @@ void game_menu() {
         case 'e':
           return;
           break;
+        default:
+          printf("\nI don't know this command :(");
+          break;
       }
     } else {
       printf("\nInput error! Let's try again!\nEnter command:");
     }
-    getchar();
+    if (command != '\n' )
+      getchar();
   }
 }
 
@@ -119,7 +124,7 @@ do {  // do ... while(...) - цикл с постусловием, то есть
 
     if (BallXC + BallXS == 0) {                     // если попали в ворота
       rScore++;                                     // увеличили счет
-      BallXC = W / 2;                               // поставли по местам
+      BallXC = W / 2 + 1;                               // поставли по местам
       BallYC = H / 4 + 2 * rScore % (H * 3 / 4);    // тут авторский рандом
       BallXS = 1;
       BallYS = (int)pow(-1, rScore);
@@ -127,8 +132,8 @@ do {  // do ... while(...) - цикл с постусловием, то есть
     }
     if (BallXC + BallXS == W + 1) {                 // попадание
       lScore++;
-      BallXC = W / 2 + 3;
-      BallYC = H / 2 + 2 * lScore % (H * 3 / 4);
+      BallXC = W / 2;
+      BallYC = H / 4 + 2 * lScore % (H * 3 / 4);
       BallXS = -1;
       BallYS = (int)pow(-1, lScore);
       continue;
