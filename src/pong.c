@@ -39,7 +39,7 @@ void game_pong(){
     printf("\nTO PLAY GAME:\npush A K - to up left/right paddle\npush Z M - to down left/right paddle\n");
     //getchar();
     do {
-        fpurge(stdin);
+        fpurge(stdout);
         printf("Left Score:%d", lScore);
         for (int i = 0; i < 29; i++) {
             printf(" ");
@@ -94,7 +94,7 @@ void game_pong(){
         }
         if (BallXC + BallXS == W + 1) {
             lScore++;
-            BallXC = W/2 + 1;
+            BallXC = W/2 + 3;
             BallYC = H/2 + 2 * lScore % (H*3/4);
             BallXS = 1;
             BallYS = (int)pow(-1,lScore);
@@ -149,7 +149,7 @@ void game_pong(){
         }
 
 
-        printf("\n    BallXS:%d, BallYS:%d, BallXC:%d, BallYC:%d \n", BallXS, BallYS, BallXC, BallYC);
+        //printf("\n    BallXS:%d, BallYS:%d, BallXC:%d, BallYC:%d \n", BallXS, BallYS, BallXC, BallYC);
 
         BallXC+=BallXS;
         BallYC+=BallYS;
